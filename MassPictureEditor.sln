@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MassPictureEditor", "MassPictureEditor\MassPictureEditor.csproj", "{4DE49AC8-81B6-4F83-8002-0151BC3E878B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DE49AC8-81B6-4F83-8002-0151BC3E878B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE49AC8-81B6-4F83-8002-0151BC3E878B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE49AC8-81B6-4F83-8002-0151BC3E878B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE49AC8-81B6-4F83-8002-0151BC3E878B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AADEEC3B-34EE-4CA6-A598-42792B05A314}
+	EndGlobalSection
+EndGlobal
