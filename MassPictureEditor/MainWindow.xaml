@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MassPictureEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Редактор фото для спама" Height="450" Width="800">
     <Grid>
         <Button Content="Папка с исходными картинками" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="222" Click="Button_Click"/>
         <Label x:Name="sourceLabel" Content="путь" HorizontalAlignment="Left" Margin="272,4,0,0" VerticalAlignment="Top"/>
