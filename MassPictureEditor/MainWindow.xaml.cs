@@ -88,7 +88,8 @@ namespace MassPictureEditor
                     statusLabel.Content = "Соотношение: " + (decimal)randomWidth / (decimal)width;
 
                     Bitmap resultImg = new Bitmap(img, new System.Drawing.Size(randomWidth, resultHeight));
-                    string fileName = Guid.NewGuid() + ".jpg";
+                    string oldName = path.Replace(sourceDirectory, "").Replace("\\", "").Replace(".jpg", "");
+                    string fileName = oldName+"_"+Guid.NewGuid() + ".jpg";
                     string resultPath = System.IO.Path.Combine(targetDirectory, fileName);
                     resultImg.Save(resultPath, System.Drawing.Imaging.ImageFormat.Jpeg);
                     secondImgImage.Source = BitmapToImageSource(resultImg);
