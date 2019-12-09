@@ -23,8 +23,8 @@ namespace MassPictureEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        string sourceDirectory = "C:\\Users\\М\\Desktop\\log";
-        string targetDirectory = "C:\\Users\\М\\Desktop\\копии фото";
+        string sourceDirectory = @"C:\Users\XXXXX\Desktop\log";
+        string targetDirectory = @"C:\Users\XXXXX\Desktop\копии фото";
         Random rnd = new Random();
 
         public MainWindow()
@@ -54,11 +54,25 @@ namespace MassPictureEditor
                 {
                     File.Delete(path);
                 }
+
+                string[] allFoundDirs_ = Directory.GetDirectories(targetDirectory);
+                foreach (string path in allFoundDirs_)
+                {
+                    allFoundFiles_ = Directory.GetFiles(path, "*.jpg", SearchOption.TopDirectoryOnly);
+                    foreach (string path_ in allFoundFiles_)
+                    {
+                        File.Delete(path_);
+                    }
+                    Directory.Delete(path, true);
+                }
+
                 await Task.Delay(1000);
 
                 string[] allFoundFiles = Directory.GetFiles(sourceDirectory, "*.jpg", SearchOption.TopDirectoryOnly);
 
-                foreach (string path in allFoundFiles)
+                string[] allFoundFilesRecursive = Directory.GetFiles(sourceDirectory, "*.jpg", SearchOption.AllDirectories);
+
+                foreach (string path in allFoundFilesRecursive)
                 {
                     Bitmap img = new Bitmap(path);
                     int width = img.Width;
@@ -87,10 +101,31 @@ namespace MassPictureEditor
 
                     statusLabel.Content = "Соотношение: " + (decimal)randomWidth / (decimal)width;
 
+                    string fileName_ = System.IO.Path.GetFileName(path).Replace(".jpg", "");
+
                     Bitmap resultImg = new Bitmap(img, new System.Drawing.Size(randomWidth, resultHeight));
                     string oldName = path.Replace(sourceDirectory, "").Replace("\\", "").Replace(".jpg", "");
-                    string fileName = oldName+"_"+Guid.NewGuid() + ".jpg";
-                    string resultPath = System.IO.Path.Combine(targetDirectory, fileName);
+                    string oldNameOfDir = path.Replace(sourceDirectory, "").Replace(".jpg", "").Replace(fileName_, ""); ;
+
+                    string fileName = "";
+                    string resultPath = "";
+
+                    if (fileName_== oldName)
+                    {
+                        fileName = oldName + "_" + Guid.NewGuid() + ".jpg";
+                        resultPath = System.IO.Path.Combine(targetDirectory, fileName);
+                    }
+                    else
+                    {
+                        fileName = fileName_ + "_" + Guid.NewGuid() + ".jpg";
+                        string subDirPath = targetDirectory + oldNameOfDir;
+                        if(!Directory.Exists(subDirPath))
+                        {
+                            Directory.CreateDirectory(subDirPath);
+                        }
+                        resultPath = System.IO.Path.Combine(subDirPath, fileName);
+                    }
+
                     resultImg.Save(resultPath, System.Drawing.Imaging.ImageFormat.Jpeg);
                     secondImgImage.Source = BitmapToImageSource(resultImg);
                     await Task.Delay(1);
