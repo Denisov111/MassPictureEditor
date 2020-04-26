@@ -68,7 +68,7 @@ namespace MassPictureEditor
 
                 await Task.Delay(1000);
 
-                string[] allFoundFiles = Directory.GetFiles(sourceDirectory, "*.jpg", SearchOption.TopDirectoryOnly);
+                //string[] allFoundFiles = Directory.GetFiles(sourceDirectory, "*.jpg", SearchOption.TopDirectoryOnly);
 
                 string[] allFoundFilesRecursive = Directory.GetFiles(sourceDirectory, "*.jpg", SearchOption.AllDirectories);
 
@@ -101,16 +101,16 @@ namespace MassPictureEditor
 
                     statusLabel.Content = "Соотношение: " + (decimal)randomWidth / (decimal)width;
 
-                    string fileName_ = System.IO.Path.GetFileName(path).Replace(".jpg", "");
+                    string fileName_ = System.IO.Path.GetFileName(path).Replace(".jpg", "").Replace(".JPG", "");
 
                     Bitmap resultImg = new Bitmap(img, new System.Drawing.Size(randomWidth, resultHeight));
-                    string oldName = path.Replace(sourceDirectory, "").Replace("\\", "").Replace(".jpg", "");
-                    string oldNameOfDir = path.Replace(sourceDirectory, "").Replace(".jpg", "").Replace(fileName_, ""); ;
+                    string oldName = path.Replace(sourceDirectory, "").Replace("\\", "").Replace(".jpg", "").Replace(".JPG", "");
+                    string oldNameOfDir = path.Replace(sourceDirectory, "").Replace(".jpg", "").Replace(".JPG", "").Replace(fileName_, ""); ;
 
                     string fileName = "";
                     string resultPath = "";
 
-                    if (fileName_== oldName)
+                    if (fileName_ == oldName)
                     {
                         fileName = oldName + "_" + Guid.NewGuid() + ".jpg";
                         resultPath = System.IO.Path.Combine(targetDirectory, fileName);
@@ -119,7 +119,7 @@ namespace MassPictureEditor
                     {
                         fileName = fileName_ + "_" + Guid.NewGuid() + ".jpg";
                         string subDirPath = targetDirectory + oldNameOfDir;
-                        if(!Directory.Exists(subDirPath))
+                        if (!Directory.Exists(subDirPath))
                         {
                             Directory.CreateDirectory(subDirPath);
                         }
@@ -161,6 +161,84 @@ namespace MassPictureEditor
                 bitmapimage.EndInit();
 
                 return bitmapimage;
+            }
+        }
+
+        async private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            if (Directory.Exists(sourceDirectory))
+            {
+                //чистим папку
+                string[] allFoundFiles_ = Directory.GetFiles(targetDirectory, "*.jpg", SearchOption.TopDirectoryOnly);
+                foreach (string path in allFoundFiles_)
+                {
+                    File.Delete(path);
+                }
+
+                string[] allFoundDirs_ = Directory.GetDirectories(targetDirectory);
+                foreach (string path in allFoundDirs_)
+                {
+                    allFoundFiles_ = Directory.GetFiles(path, "*.jpg", SearchOption.TopDirectoryOnly);
+                    foreach (string path_ in allFoundFiles_)
+                    {
+                        File.Delete(path_);
+                    }
+                    Directory.Delete(path, true);
+                }
+
+                await Task.Delay(1000);
+
+                //string[] allFoundFiles = Directory.GetFiles(sourceDirectory, "*.jpg", SearchOption.TopDirectoryOnly);
+
+                string[] allFoundFilesRecursive = Directory.GetFiles(sourceDirectory, "*.jpg", SearchOption.AllDirectories);
+
+                foreach (string path in allFoundFilesRecursive)
+                {
+
+
+                    string fileName_ = System.IO.Path.GetFileName(path).Replace(".jpg", "").Replace(".JPG", "");
+                    string oldName = path.Replace(sourceDirectory, "").Replace("\\", "").Replace(".jpg", "").Replace(".JPG", "");
+                    string oldNameOfDir = path.Replace(sourceDirectory, "").Replace(".jpg", "").Replace(".JPG", "").Replace(fileName_, ""); ;
+
+                    string fileName = "";
+                    string resultPath = "";
+
+                    if (fileName_ == oldName)
+                    {
+                        fileName = Guid.NewGuid() + "_" + oldName + ".jpg";
+                        resultPath = System.IO.Path.Combine(targetDirectory, fileName);
+                    }
+                    else
+                    {
+                        fileName = Guid.NewGuid() + "_" + fileName_ + ".jpg";
+                        string subDirPath = targetDirectory + oldNameOfDir;
+                        if (!Directory.Exists(subDirPath))
+                        {
+                            Directory.CreateDirectory(subDirPath);
+                        }
+                        resultPath = System.IO.Path.Combine(subDirPath, fileName);
+                    }
+                    await CopyFileAsync(path, resultPath);
+
+                    statusLabel.Content = path;
+                }
+            }
+            else
+            {
+                System.Windows.Forms.MessageBox.Show("Нет папки исходных файлов");
+            }
+
+            statusLabel.Content = "Готово!!!";
+        }
+
+        public async Task CopyFileAsync(string sourcePath, string destinationPath)
+        {
+            using (Stream source = File.Open(sourcePath, FileMode.Open))
+            {
+                using (Stream destination = File.Create(destinationPath))
+                {
+                    await source.CopyToAsync(destination);
+                }
             }
         }
     }

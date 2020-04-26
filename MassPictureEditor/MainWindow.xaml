@@ -15,6 +15,7 @@
         <Label x:Name="statusLabel" Content="Статус" HorizontalAlignment="Left" Margin="57,115,0,0" VerticalAlignment="Top"/>
         <Image x:Name="firstImgImage" HorizontalAlignment="Left" Height="233" Margin="10,158,0,0" VerticalAlignment="Top" Width="243"/>
         <Image x:Name="secondImgImage" HorizontalAlignment="Left" Height="233" Margin="322,158,0,0" VerticalAlignment="Top" Width="299"/>
+        <Button Content="Просто скопировать и переименовать" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="222" Click="Button_Click_3"/>
 
     </Grid>
 </Window>
