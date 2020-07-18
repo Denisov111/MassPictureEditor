@@ -23,8 +23,8 @@ namespace MassPictureEditor
     /// </summary>
     public partial class MainWindow : Window
     {
-        string sourceDirectory = @"C:\Users\XXXXX\Desktop\log";
-        string targetDirectory = @"C:\Users\XXXXX\Desktop\копии фото";
+        string sourceDirectory = @"C:\Users\Maxxx\Desktop\log";
+        string targetDirectory = @"C:\Users\Maxxx\Desktop\копии фото";
         Random rnd = new Random();
 
         public MainWindow()
